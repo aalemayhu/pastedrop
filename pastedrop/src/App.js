@@ -1,5 +1,6 @@
 import React from 'react';
 import RX from 'reactxp';
+import { DEBUG, DEV } from './config';
 
 const _styles = {
   main: RX.Styles.createViewStyle({
@@ -42,11 +43,17 @@ const _styles = {
 };
 
 export class App extends RX.Component {
-  render() {
+
+  init() {
+    RX.App.initialize(DEBUG, DEV);
+    RX.UserInterface.setMainView(this._renderView());
+  }
+
+  _renderView() {
     return (
       <RX.View style={ _styles.main }>
         <RX.View>
-          <RX.Text style={ _styles.title }>Welcome to <RX.Text style={ _styles.name }>ReactXP</RX.Text></RX.Text>
+          <RX.Text style={ _styles.title }>XWelcome to <RX.Text style={ _styles.name }>ReactXP</RX.Text></RX.Text>
           <RX.Text style={ _styles.label }>To get started, edit /src/App.js</RX.Text>
         </RX.View>
 
@@ -60,3 +67,5 @@ export class App extends RX.Component {
     );
   }
 }
+
+export default new App();

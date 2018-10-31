@@ -1,7 +1,7 @@
+import { RootView } from './views/RootView';
+import { DEBUG, DEV } from './config';
 import React from 'react';
 import RX from 'reactxp';
-import { DEBUG, DEV } from './config';
-import { RootView } from './views/RootView';
 
 const _styles = {
   main: RX.Styles.createViewStyle({

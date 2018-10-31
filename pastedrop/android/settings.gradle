@@ -1,0 +1,3 @@
+rootProject.name = 'pastedrop'
+
+include ':app'

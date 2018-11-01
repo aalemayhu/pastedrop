@@ -1,40 +1,31 @@
 import { VirtualListView } from 'reactxp-virtuallistview';
 import React from 'react';
 import RX from 'reactxp';
+import store from 'store';
 
-const _headerItemHeight = 20;
-const _fruitItemHeight = 32;
+store.addPlugin(require('store/plugins/observe'));
+
 const _headerItemTemplate = 'header';
-const _fruitItemTemplate = 'fruit';
 
 export class PasteboardItemListView extends RX.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            items: [{
-                key: 'header1',
-                height: _headerItemHeight,
-                text: 'Domstic Fruits',
-                template: _headerItemTemplate
-            }, {
-                key: 'bannana',
-                height: _fruitItemHeight,
-                text: 'Banana',
-                template: _fruitItemTemplate
-            }, {
-                key: 'apple',
-                height: _fruitItemHeight,
-                text: 'Apple',
-                template: _fruitItemTemplate
-            }]
-        };
+            items: store.get('items'),
+        }
+    }
+
+    componentWillMount() {
+        store.observe('items', (items) => this.setState({items}));
     }
 
     render() {
+        const { items } = this.state;
+
         return (
             <VirtualListView
-                itemList={ this.state.items }
+                itemList={ items }
                 renderItem={ this._renderItem }
                 animateChanges={ true }
                 skipRenderIfItemUnchanged={ true }
@@ -43,7 +34,6 @@ export class PasteboardItemListView extends RX.Component {
     }
 
     _renderItem(item) {
-        localStorage.setItem(item.key, item);
         const viewStyle = RX.Styles.createViewStyle({
             height: item.height,
             backgroundColor: item.template === _headerItemTemplate ?

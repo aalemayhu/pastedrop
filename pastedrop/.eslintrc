@@ -15,7 +15,8 @@
   },
   "rules": {
     "react/jsx-curly-brace-presence": [2, { "props": "always" }],
-    "max-len": ["error", 140]
+    "max-len": ["error", 140],
+    "no-console": 0
   },
   "globals": {
     "__DEV__": true

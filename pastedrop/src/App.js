@@ -21,17 +21,6 @@ const _styles = {
     color: '#42B74F',
     fontSize: 36,
   }),
-  roundButton: RX.Styles.createViewStyle({
-      margin: 16,
-      borderRadius: 16,
-      backgroundColor: '#7d88a9'
-  }),
-  buttonText: RX.Styles.createTextStyle({
-      fontSize: 16,
-      marginVertical: 6,
-      marginHorizontal: 12,
-      color: 'white'
-  }),
 };
 
 export class App extends RX.Component {
@@ -41,8 +30,24 @@ export class App extends RX.Component {
     RX.UserInterface.setMainView(this._renderView());
   }
 
-  _onPlusPressed() {
-    alert('todo get clipboard data');
+  _onPaste(event) {
+    // For now we are only testing on the web stuff, but we should
+    // use the correct API's for mobile. Also worth testing if this
+    // works on all of the "modern" browsers. Maybe can find a module
+    // or do vanilla conditionals like the below:
+    // if target == 'web' 
+    // otherwise use Clipboard API
+    const data = event.clipboardData.items;
+    for (let i = 0; i < data.length; i += 1) {
+      const item = data[i];
+      if (item.kind === 'string' && item.type.match('^text/plain')) {
+        item.getAsString(s => {
+          alert(s);
+          // TODO: store this somewhere
+        });
+      }
+      // TODO: handle other types (files, mimetypes, etc.)
+    }
   }
 
   _renderView() {
@@ -50,9 +55,7 @@ export class App extends RX.Component {
       <RX.View style={ _styles.main }>
         <RX.View>
           <RX.Text style={ _styles.title }><RX.Text style={ _styles.name }>pastedrop</RX.Text></RX.Text>
-          <RX.Button style={ _styles.roundButton } onPress={ this._onPlusPressed }>
-            <RX.Text style={ _styles.buttonText }>+</RX.Text>
-          </RX.Button>
+          <RX.TextInput  onPaste={ this._onPaste }></RX.TextInput>
         </RX.View>
         <RootView />        
       </RX.View>
